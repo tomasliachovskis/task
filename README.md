@@ -2,6 +2,7 @@
 
 ## How to install:
 - git clone rep
+- cp .env.dist .env
 - composer install
 
 ## How to run app:
