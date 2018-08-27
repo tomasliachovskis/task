@@ -53,10 +53,15 @@ class CheckFlightClaimableCommand extends Command
         }
 
         foreach ($file as $fileLine) {
+            if (empty($fileLine[0]) || empty($fileLine[1]) || !isset($fileLine[2])) {
+                $output->writeln('Not valid record ' . implode(', ', $fileLine));
+                continue;
+            }
+
             $flightDto = (new FlightDto())
-                ->setCountry($fileLine[0] ?? '')
-                ->setStatus($fileLine[1] ?? '')
-                ->setStatusValue($fileLine[2] ?? 0);
+                ->setCountry($fileLine[0])
+                ->setStatus($fileLine[1])
+                ->setStatusValue((int) $fileLine[2]);
 
             $decTable = new DecisionTable(new FlightIsClaimableTable(), $flightDto);
             $isValid = $decTable->validate();
